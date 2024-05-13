@@ -134,33 +134,33 @@
             <form>
               <div class="mb-3">
                 <label for="nome" class="col-form-label d-block">Nome</label>
-                <input type="text" class="form-control" id="nome" />
+                <input type="text" class="form-control" id="nome" required />
               </div>
               <div class="mb-3">
                 <label for="cor-primaria" class="col-form-label d-block">Cor primária</label>
-                <input type="color" id="cor-primaria" value="#cccccc" />
+                <input type="color" id="cor-primaria" />
               </div>
               <div class="mb-3">
                 <label for="cor-secundaria" class="col-form-label d-block">Cor secundária</label>
-                <input type="color" id="cor-secundaria" value="#cccccc" />
+                <input type="color" id="cor-secundaria" />
               </div>
               <div class="mb-3">
                 <label for="cor-sucesso" class="col-form-label d-block">Cor sucesso</label>
-                <input type="color" id="cor-sucesso" value="#cccccc" />
+                <input type="color" id="cor-sucesso" />
               </div>
               <div class="mb-3">
                 <label for="cor-erro" class="col-form-label d-block">Cor erro</label>
-                <input type="color" id="cor-erro" value="#cccccc" />
+                <input type="color" id="cor-erro" />
               </div>
               <div class="mb-3">
                 <label for="cor-alerta" class="col-form-label d-block">Cor alerta</label>
-                <input type="color" id="cor-alerta" value="#cccccc" />
+                <input type="color" id="cor-alerta" />
               </div>
             </form>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-            <button type="button" class="btn btn-primary">Salvar tema</button>
+            <button type="button" class="btn btn-primary" onclick="addItem()">Salvar tema</button>
           </div>
         </div>
       </div>

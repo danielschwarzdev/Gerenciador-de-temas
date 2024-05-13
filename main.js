@@ -112,7 +112,7 @@ function populateTable(themes) {
         <td>${theme.colors.danger}</td>
         <td>${theme.colors.warning}</td>
         <td class="text-end">
-          <a href="javascript:;" onclick="editItem(${theme.id})"><i class="bx bx-edit"></i></a>
+          <a href="javascript:;" onclick="openModal(${theme.id})"><i class="bx bx-edit"></i></a>
           <a href="javascript:;" onclick="deleteItem(${theme.id})"><i class="bx bx-trash"></i></a>
         </td>
       </tr>
@@ -123,20 +123,83 @@ function populateTable(themes) {
   }
 }
 
+// Modal
+function openModal() {
+  const inputs = document.querySelectorAll("#modal input");
+  inputs.forEach((input) => (input.value = ""));
+
+  const modal = new bootstrap.Modal(document.getElementById("modal"));
+  modal.show();
+}
+
+// Adiciona tema
+function addItem() {
+  const nome = document.querySelector("#nome");
+  const primaria = document.querySelector("#cor-primaria");
+  const secundaria = document.querySelector("#cor-secundaria");
+  const sucesso = document.querySelector("#cor-sucesso");
+  const erro = document.querySelector("#cor-erro");
+  const alerta = document.querySelector("#cor-alerta");
+
+  if (nome.value == "") {
+    return;
+  }
+
+  const newTheme = {
+    id: themes.length + 1,
+    name: nome.value,
+    colors: {
+      primary: primaria.value,
+      secondary: secundaria.value,
+      success: sucesso.value,
+      danger: erro.value,
+      warning: alerta.value,
+    },
+  };
+
+  themes.push(newTheme);
+  localStorage.setItem("themes", JSON.stringify(themes));
+  populateList(themes);
+  populateTable(themes);
+  changeTheme();
+  document.querySelector("#modal .btn-close").click();
+}
+
+// Edita tema
+function editItem(index) {}
+
+// Deleta tema
+function deleteItem(index) {
+  const indexToRemove = themes.findIndex((theme) => theme.id === index);
+
+  if (indexToRemove !== -1) {
+    themes.splice(indexToRemove, 1);
+  }
+
+  localStorage.setItem("themes", JSON.stringify(themes));
+  populateList(themes);
+  populateTable(themes);
+}
+
 // Inicializa as funções
 const themes = JSON.parse(localStorage.getItem("themes"));
 if (!themes) {
   storeJSONInLocalStorage();
 }
-updateThemeColors(
-  themes[0].colors.primary,
-  themes[0].colors.secondary,
-  themes[0].colors.success,
-  themes[0].colors.danger,
-  themes[0].colors.warning
-);
+
+if (themes[0]) {
+  updateThemeColors(
+    themes[0].colors.primary,
+    themes[0].colors.secondary,
+    themes[0].colors.success,
+    themes[0].colors.danger,
+    themes[0].colors.warning
+  );
+
+  setThemeName(themes[0].name);
+}
+
 populateList(themes);
 filterList();
-setThemeName(themes[0].name);
 changeTheme();
 populateTable(themes);
