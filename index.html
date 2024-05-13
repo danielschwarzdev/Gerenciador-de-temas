@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css" />
+    <link rel="stylesheet" href="./style.scss" />
+
+    <title>Gerenciador de temas</title>
+  </head>
+  <body>
+    <main class="mb-5">
+      <header class="header py-3">
+        <div class="container">
+          <div class="d-flex justify-content-between align-items-center">
+            <a href="#" class="d-inline-flex"><img src="./logo.svg" alt="Seletor de temas" /></a>
+
+            <div class="dropdown">
+              <a
+                href="#"
+                class="btn btn-primary dropdown-toggle"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Selecione o tema
+              </a>
+
+              <div class="dropdown-menu dropdown-menu-end">
+                <div class="p-2 mb-2 bg-body-tertiary border-bottom">
+                  <input
+                    type="search"
+                    class="form-control"
+                    id="theme-filter"
+                    autocomplete="false"
+                    placeholder="Filtrar"
+                  />
+                </div>
+                <ul class="list-unstyled mb-0" id="themes-list"></ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="py-5 mb-5 bg-body-tertiary">
+        <div class="container">
+          <h1 class="display-5 fw-bold text-center mb-4">Seletor de temas</h1>
+          <div class="row justify-content-center">
+            <div class="col-xl-6">
+              <p class="lead text-center mb-4">
+                Você está visualizando o <strong id="theme-name"></strong>. Veja mais na listagem abaixo ou
+                adicione um novo tema clicando no botão <strong>Adicionar</strong>.
+              </p>
+
+              <div class="colors-grid">
+                <div class="colors-grid__item colors-grid__item--primary rounded">
+                  <div class="colors-grid__item--content p-2 text-center">
+                    <p class="m-0">Primary</p>
+                  </div>
+                </div>
+
+                <div class="colors-grid__item colors-grid__item--secondary rounded">
+                  <div class="colors-grid__item--content p-2 text-center">
+                    <p class="m-0">Secondary</p>
+                  </div>
+                </div>
+
+                <div class="colors-grid__item colors-grid__item--success rounded">
+                  <div class="colors-grid__item--content p-2 text-center">
+                    <p class="m-0">Success</p>
+                  </div>
+                </div>
+
+                <div class="colors-grid__item colors-grid__item--danger rounded">
+                  <div class="colors-grid__item--content p-2 text-center">
+                    <p class="m-0">Danger</p>
+                  </div>
+                </div>
+
+                <div class="colors-grid__item colors-grid__item--warning rounded">
+                  <div class="colors-grid__item--content p-2 text-center">
+                    <p class="m-0">Warning</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <p class="fw-bold mb-0">Gerenciador de temas</p>
+          <a href="javascript:;" class="btn btn-primary" onclick="openModal()">Adicionar</a>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Tema</th>
+                <th scope="col">Primary</th>
+                <th scope="col">Secondary</th>
+                <th scope="col">Success</th>
+                <th scope="col">Danger</th>
+                <th scope="col">Warning</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody id="themes-table"></tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+
+    <div class="modal fade" id="modal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5">Novo tema</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <label for="nome" class="col-form-label d-block">Nome</label>
+                <input type="text" class="form-control" id="nome" />
+              </div>
+              <div class="mb-3">
+                <label for="cor-primaria" class="col-form-label d-block">Cor primária</label>
+                <input type="color" id="cor-primaria" value="#cccccc" />
+              </div>
+              <div class="mb-3">
+                <label for="cor-secundaria" class="col-form-label d-block">Cor secundária</label>
+                <input type="color" id="cor-secundaria" value="#cccccc" />
+              </div>
+              <div class="mb-3">
+                <label for="cor-sucesso" class="col-form-label d-block">Cor sucesso</label>
+                <input type="color" id="cor-sucesso" value="#cccccc" />
+              </div>
+              <div class="mb-3">
+                <label for="cor-erro" class="col-form-label d-block">Cor erro</label>
+                <input type="color" id="cor-erro" value="#cccccc" />
+              </div>
+              <div class="mb-3">
+                <label for="cor-alerta" class="col-form-label d-block">Cor alerta</label>
+                <input type="color" id="cor-alerta" value="#cccccc" />
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+            <button type="button" class="btn btn-primary">Salvar tema</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+    <script src="./main.js"></script>
+  </body>
+</html>
