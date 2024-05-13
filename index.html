@@ -100,7 +100,7 @@
       <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-4">
           <p class="fw-bold mb-0">Gerenciador de temas</p>
-          <a href="javascript:;" class="btn btn-primary" onclick="openModal()">Adicionar</a>
+          <a href="javascript:;" class="btn btn-primary" onclick="openModal('add')">Adicionar</a>
         </div>
 
         <div class="table-responsive">
@@ -130,8 +130,8 @@
             <h1 class="modal-title fs-5">Novo tema</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div class="modal-body">
-            <form>
+          <form id="form-theme">
+            <div class="modal-body">
               <div class="mb-3">
                 <label for="nome" class="col-form-label d-block">Nome</label>
                 <input type="text" class="form-control" id="nome" required />
@@ -156,12 +156,12 @@
                 <label for="cor-alerta" class="col-form-label d-block">Cor alerta</label>
                 <input type="color" id="cor-alerta" />
               </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-            <button type="button" class="btn btn-primary" onclick="addItem()">Salvar tema</button>
-          </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+              <button type="submit" class="btn btn-primary">Salvar tema</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>

@@ -112,7 +112,7 @@ function populateTable(themes) {
         <td>${theme.colors.danger}</td>
         <td>${theme.colors.warning}</td>
         <td class="text-end">
-          <a href="javascript:;" onclick="openModal(${theme.id})"><i class="bx bx-edit"></i></a>
+          <a href="javascript:;" onclick="openModal('edit', ${theme.id})"><i class="bx bx-edit"></i></a>
           <a href="javascript:;" onclick="deleteItem(${theme.id})"><i class="bx bx-trash"></i></a>
         </td>
       </tr>
@@ -124,16 +124,16 @@ function populateTable(themes) {
 }
 
 // Modal
-function openModal() {
+function openModal(action, index = 0) {
+  // Limpa os valores dos inputs e abre modal
   const inputs = document.querySelectorAll("#modal input");
   inputs.forEach((input) => (input.value = ""));
 
-  const modal = new bootstrap.Modal(document.getElementById("modal"));
-  modal.show();
-}
+  const modal = document.getElementById("modal");
+  const modalInit = new bootstrap.Modal(modal);
+  modalInit.show();
 
-// Adiciona tema
-function addItem() {
+  // Atribui inputs a variaveis e os popula caso a ação for de edição
   const nome = document.querySelector("#nome");
   const primaria = document.querySelector("#cor-primaria");
   const secundaria = document.querySelector("#cor-secundaria");
@@ -141,32 +141,102 @@ function addItem() {
   const erro = document.querySelector("#cor-erro");
   const alerta = document.querySelector("#cor-alerta");
 
-  if (nome.value == "") {
-    return;
+  if (action == "edit") {
+    const theme = themes.find((item) => item.id === index);
+    if (theme) {
+      nome.value = theme.name;
+      primaria.value = theme.colors.primary;
+      secundaria.value = theme.colors.secondary;
+      sucesso.value = theme.colors.success;
+      erro.value = theme.colors.danger;
+      alerta.value = theme.colors.warning;
+    }
   }
 
-  const newTheme = {
-    id: themes.length + 1,
-    name: nome.value,
-    colors: {
-      primary: primaria.value,
-      secondary: secundaria.value,
-      success: sucesso.value,
-      danger: erro.value,
-      warning: alerta.value,
-    },
-  };
+  // Envia o formulário
+  const formTheme = document.getElementById("form-theme");
+  formTheme.addEventListener(
+    "submit",
+    (event) => {
+      event.preventDefault();
 
-  themes.push(newTheme);
-  localStorage.setItem("themes", JSON.stringify(themes));
-  populateList(themes);
-  populateTable(themes);
-  changeTheme();
-  document.querySelector("#modal .btn-close").click();
+      if (action == "add") {
+        addTheme(nome.value, primaria.value, secundaria.value, sucesso.value, erro.value, alerta.value);
+        modalInit.hide();
+      } else if (action == "edit") {
+        editTheme(
+          index,
+          nome.value,
+          primaria.value,
+          secundaria.value,
+          sucesso.value,
+          erro.value,
+          alerta.value
+        );
+        modalInit.hide();
+      }
+    },
+    { once: true }
+  );
+}
+
+// Adiciona tema
+function addTheme(nome, primaria, secundaria, sucesso, erro, alerta) {
+  if (themes) {
+    if (nome.value == "") {
+      return;
+    }
+
+    const newId = Math.max(...themes.map((tema) => tema.id));
+    const newTheme = {
+      id: newId + 1,
+      name: nome,
+      colors: {
+        primary: primaria,
+        secondary: secundaria,
+        success: sucesso,
+        danger: erro,
+        warning: alerta,
+      },
+    };
+
+    themes.push(newTheme);
+    localStorage.setItem("themes", JSON.stringify(themes));
+    populateList(themes);
+    populateTable(themes);
+    changeTheme();
+  }
 }
 
 // Edita tema
-function editItem(index) {}
+function editTheme(index, nome, primaria, secundaria, sucesso, erro, alerta) {
+  if (themes) {
+    if (nome.value == "") {
+      return;
+    }
+
+    const findIndex = themes.findIndex((item) => item.id === index);
+    if (findIndex !== -1) {
+      const newTheme = {
+        id: index,
+        name: nome,
+        colors: {
+          primary: primaria,
+          secondary: secundaria,
+          success: sucesso,
+          danger: erro,
+          warning: alerta,
+        },
+      };
+
+      themes[findIndex] = newTheme;
+      localStorage.setItem("themes", JSON.stringify(themes));
+      populateList(themes);
+      populateTable(themes);
+      changeTheme();
+    }
+  }
+}
 
 // Deleta tema
 function deleteItem(index) {
@@ -179,6 +249,7 @@ function deleteItem(index) {
   localStorage.setItem("themes", JSON.stringify(themes));
   populateList(themes);
   populateTable(themes);
+  changeTheme();
 }
 
 // Inicializa as funções
